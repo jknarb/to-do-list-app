@@ -45,30 +45,21 @@ const editTaskFunctions = {
             button.addEventListener('click', function( ){
 
                 const listArray = addNewListFunctions.listArray;
-                console.log('Below is the list array');
-                console.log(listArray);
                 const targetObject = listArray.filter(object => object.name == listName)[0];
-                console.log('Below is the list array');
-                console.log(targetObject);
                 let taskArray = targetObject.taskArray;
                 //1. remove child elements and replace add-task bar
                 const contentContainers = document.querySelectorAll('.todolist-content-container');
                 const contentContainer2 = contentContainers[1];
                 contentContainer2.innerHTML = '';
                 editTaskFunctions.resetTaskBar(contentContainer2);
-                console.log('Below is the original taskArray:');
-                console.log(taskArray);
                 const taskSelector = button.parentNode.firstChild.children[1].textContent;
                 const newtaskArray = taskArray.filter(object => object.taskInputName != taskSelector);
-                console.log('Below is the update task array:');
-                console.log(newtaskArray);
                 taskArray = newtaskArray;
                 //Write code to render all the list again with the remove icon
                 taskArray.forEach( ( task ) => {
                     const taskName = task.taskInputName;
                     const taskDescription = task.taskInputDescription;
                     const taskDate = task.taskInputDate;
-        
                     const createDiv = document.createElement('div');
                     const createContentDiv = document.createElement('div');
                     const createInput = document.createElement('input');
@@ -84,15 +75,11 @@ const editTaskFunctions = {
                     createh4Name.textContent = taskName;
         
                     createContentDiv.classList.add('input-and-name-container');
-        
                     createInput.classList.add('task-checkbox');
                     createInput.setAttribute('type', 'checkbox');
-        
                     createDiv.classList.add('task-container-div');
-        
                     createContentDiv.appendChild(createInput);
                     createContentDiv.appendChild(createh4Name);
-        
                     createDiv.appendChild(createContentDiv);
                     createDiv.appendChild(createh4Description);
                     createDiv.appendChild(createh4Date);

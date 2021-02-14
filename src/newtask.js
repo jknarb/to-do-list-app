@@ -3,11 +3,8 @@ import {addNewListFunctions} from './newlist';
 const newTaskFunctions = {
 
     addTaskToObject: function (listName) {
-
         //1. Select the Object that matches the list name. 
-        const listArray = addNewListFunctions.listArray;
-        const targetObject = listArray.filter(object => object.name == listName)[0];
-
+        const listArray = addNewListFunctions.getList();
         //2. Grab the input values from the task inputs and put as object.
         const taskInputs = document.querySelectorAll('.add-task-input');
         const taskInputName = taskInputs[0].value;
@@ -16,7 +13,12 @@ const newTaskFunctions = {
         const taskInputsObject = {taskInputName,taskInputDescription,taskInputDate};
 
         //3. Push task Inputs into taskArray as an object
-        targetObject.taskArray.push(taskInputsObject);
+
+        const index = listArray.findIndex(object => object.name == listName);
+        let newListArray = [...listArray[index].taskArray];
+        newListArray.push(taskInputsObject);
+        listArray[index].taskArray = newListArray;
+        addNewListFunctions.storeList(listArray);
 
         return this;
 
@@ -93,9 +95,13 @@ const newTaskFunctions = {
         })();
 
         // 2. Grab the information from the target Object
-        const listArray = addNewListFunctions.listArray;
+        const listArray = addNewListFunctions.getList();
+        console.log(listArray);
         const targetObject = listArray.filter(object => object.name == listName)[0];
+        console.log(targetObject);
         const taskArray = targetObject.taskArray;
+        console.log(taskArray);
+
 
         taskArray.forEach( ( task ) => {
             const taskName = task.taskInputName;

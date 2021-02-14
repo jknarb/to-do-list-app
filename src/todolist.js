@@ -1,11 +1,10 @@
-import {runAddNewTask} from './newtask';
+import {addNewListFunctions} from './newlist';
 
 const todolistfunctions = {
 
     renderToDoList: function ( ) {
 
         const allNewlist = Array.from(document.querySelectorAll('#new-list'));
-
         const renderListbreakdown = todolistfunctions.renderListbreakdown;
 
         allNewlist.forEach(function(list) {
@@ -27,22 +26,17 @@ const todolistfunctions = {
         // Creating list name and saving into listName;
         const elementClass = listElement.classList.value;
         const listName = elementClass.split('-')[0];
-
         //select main container
         const listContainer = document.querySelector('.content-div-2');
         //1. reset container
         listContainer.innerHTML = "";
-
         //2.Create 2 divs
         (function createTwoContainerDivs ( ) {
             let i = 1;
             let numOfDivs = 4;
-
             for(i; i < numOfDivs; i++) {
                 const createDiv = document.createElement('div');
-
                 createDiv.classList.add('todolist-content-container',`container-${i}`);
-
                 listContainer.appendChild(createDiv);
             }
         })( );
@@ -112,6 +106,54 @@ const todolistfunctions = {
             contentContainer3.appendChild(createBtn);
         })( );
 
+        //7. Render local storage tasks
+        (function renderStoredTasks ( ) {
+
+            const todoList = addNewListFunctions.getList();
+            console.log('This is the todolist');
+            console.log(todoList);
+            const index = todoList.findIndex(object => object.name == listName);
+            const taskArray = todoList[index].taskArray;
+        
+            taskArray.forEach( ( task ) => {
+                const taskName = task.taskInputName;
+                const taskDescription = task.taskInputDescription;
+                const taskDate = task.taskInputDate;
+    
+                const createDiv = document.createElement('div');
+                const createContentDiv = document.createElement('div');
+                const createInput = document.createElement('input');
+                const createh4Name = document.createElement('h4');
+                const createh4Description = document.createElement('h4');
+                const createh4Date =  document.createElement('h4');
+                
+                createh4Date.classList.add('task-date');
+                createh4Date.textContent = taskDate;
+                createh4Description.classList.add('task-description');
+                createh4Description.textContent = taskDescription;
+                createh4Name.classList.add('task-name');
+                createh4Name.textContent = taskName;
+    
+                createContentDiv.classList.add('input-and-name-container');
+    
+                createInput.classList.add('task-checkbox');
+                createInput.setAttribute('type', 'checkbox');
+    
+                createDiv.classList.add('task-container-div');
+    
+                createContentDiv.appendChild(createInput);
+                createContentDiv.appendChild(createh4Name);
+    
+                createDiv.appendChild(createContentDiv);
+                createDiv.appendChild(createh4Description);
+                createDiv.appendChild(createh4Date);
+    
+                contentContainer2.appendChild(createDiv);
+
+            });
+
+        })( )
+        
         return this;
     }
 };
