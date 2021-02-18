@@ -6,17 +6,13 @@ const editTaskFunctions = {
                     
         const createContainerDiv = document.createElement('div');
         const createContentDiv = document.createElement('div');
-
         createContainerDiv.classList.add('add-task-container');
         createContentDiv.classList.add('add-task-content');
-        
         const createAddSign = document.createElement('i');
         const createH3 = document.createElement('h3');
-
         createAddSign.classList.add('add-icon','fas', 'fa-plus-circle');
         createH3.classList.add('add-task-name');
         createH3.textContent = 'Add Task';
-
         createContentDiv.appendChild(createAddSign);
         createContentDiv.appendChild(createH3);
         createContainerDiv.appendChild(createContentDiv);
@@ -25,28 +21,23 @@ const editTaskFunctions = {
 
     editTask: function (listName) {
 
-        //1. Print remove icon on each task
-        
+        //1. Print remove icon on each task   
         //1.1 Task containers selector
         const taskContainer = document.querySelectorAll('.task-container-div');
         //1.2 Use for each
         taskContainer.forEach((task) => {
-
             const createI = document.createElement('i');
             createI.classList.add('remove-icon','fas', 'fa-minus-circle');
             task.appendChild(createI);
-
         });
-
         //Add event Handler for the remove-icons
         const removeBtns = document.querySelectorAll('.remove-icon');
         
         removeBtns.forEach((button) => {
             button.addEventListener('click', function( ){
-
-                const listArray = addNewListFunctions.listArray;
-                const targetObject = listArray.filter(object => object.name == listName)[0];
-                let taskArray = targetObject.taskArray;
+                const listArray = addNewListFunctions.getList();
+                const index = listArray.findIndex(object => object.name == listName);
+                let taskArray = listArray[index].taskArray;
                 //1. remove child elements and replace add-task bar
                 const contentContainers = document.querySelectorAll('.todolist-content-container');
                 const contentContainer2 = contentContainers[1];
@@ -54,9 +45,11 @@ const editTaskFunctions = {
                 editTaskFunctions.resetTaskBar(contentContainer2);
                 const taskSelector = button.parentNode.firstChild.children[1].textContent;
                 const newtaskArray = taskArray.filter(object => object.taskInputName != taskSelector);
-                taskArray = newtaskArray;
+                listArray[index].taskArray = newtaskArray;
+                addNewListFunctions.storeList(listArray);
+                let newStoredTaskArray = listArray[index].taskArray;
                 //Write code to render all the list again with the remove icon
-                taskArray.forEach( ( task ) => {
+                newStoredTaskArray.forEach( ( task ) => {
                     const taskName = task.taskInputName;
                     const taskDescription = task.taskInputDescription;
                     const taskDate = task.taskInputDate;

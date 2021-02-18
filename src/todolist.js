@@ -110,8 +110,8 @@ const todolistfunctions = {
         (function renderStoredTasks ( ) {
 
             const todoList = addNewListFunctions.getList();
-            console.log('This is the todolist');
-            console.log(todoList);
+            if (todoList == null) return;
+            
             const index = todoList.findIndex(object => object.name == listName);
             const taskArray = todoList[index].taskArray;
         

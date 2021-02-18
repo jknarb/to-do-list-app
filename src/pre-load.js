@@ -4,9 +4,10 @@ import {todolistfunctions} from './todolist';
 const preloadFunctions = {
     
     renderStoredList: function ( e ) {
-
+        
+        if (e == null) return;
         if (e.length == 0 ) return;
-
+        
         e.forEach(( e ) => {
             const listName = e.name;
             const listDiv = document.querySelector('.lists');

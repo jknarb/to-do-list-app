@@ -74,8 +74,11 @@ const addNewListFunctions = {
         console.log('localStorage getList');
         console.log(this.getList());
 
-        let listArray = this.listArray
-        listArray = this.getList();
+        let listArray = this.listArray;
+
+        if (this.getList() != null){
+            listArray = this.getList();
+        }
 
         console.log('This is the listArray:');
         console.log(this.listArray);
